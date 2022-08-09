@@ -68,12 +68,21 @@ type PullRequest struct {
 	//RequestedTeams []*Team `json:"requested_teams,omitempty"`
 	//
 	//Links *PRLinks           `json:"_links,omitempty"`
-	//Head  *PullRequestBranch `json:"head,omitempty"`
+	Head *PullRequestBranch `json:"head,omitempty"`
 	//Base  *PullRequestBranch `json:"base,omitempty"`
 
 	// ActiveLockReason is populated only when LockReason is provided while locking the pull request.
 	// Possible values are: "off-topic", "too heated", "resolved", and "spam".
 	ActiveLockReason *string `json:"active_lock_reason,omitempty"`
+}
+
+// PullRequestBranch represents a base or head branch in a GitHub pull request.
+type PullRequestBranch struct {
+	Label *string     `json:"label,omitempty"`
+	Ref   *string     `json:"ref,omitempty"`
+	SHA   *string     `json:"sha,omitempty"`
+	Repo  *Repository `json:"repo,omitempty"`
+	User  *User       `json:"user,omitempty"`
 }
 
 // GetAssignee returns the Assignee field.
@@ -141,12 +150,12 @@ func (p *PullRequest) GetDraft() bool {
 }
 
 // GetHead returns the Head field.
-//func (p *PullRequest) GetHead() *PullRequestBranch {
-//	if p == nil {
-//		return nil
-//	}
-//	return p.Head
-//}
+func (p *PullRequest) GetHead() *PullRequestBranch {
+	if p == nil {
+		return nil
+	}
+	return p.Head
+}
 
 // GetHTMLURL returns the HTMLURL field if it's non-nil, zero value otherwise.
 func (p *PullRequest) GetHTMLURL() string {
